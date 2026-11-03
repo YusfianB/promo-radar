@@ -1,0 +1,59 @@
+name: Promo Radar
+
+on:
+  schedule:
+    # 23:00 UTC = 06:00 WIB. GitHub bisa menunda jadwal beberapa menit.
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+    inputs:
+      kategori:
+        description: "Opsional: jalankan satu kategori saja (contoh: Travel)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: promo-radar
+  cancel-in-progress: false
+
+jobs:
+  cari-promo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pasang dependensi
+        run: pip install requests
+
+      - name: Cari promo
+        env:
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DASHBOARD_URL: ${{ vars.DASHBOARD_URL }}
+          KATEGORI: ${{ github.event.inputs.kategori }}
+        run: |
+          if [ -n "$KATEGORI" ]; then
+            python promo_radar.py --kategori "$KATEGORI"
+          else
+            python promo_radar.py
+          fi
+
+      - name: Simpan hasil ke repo
+        run: |
+          git config user.name "promo-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data docs
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan."
+          else
+            git commit -m "Perbarui promo $(date -u +%F)"
+            git push
+          fi
