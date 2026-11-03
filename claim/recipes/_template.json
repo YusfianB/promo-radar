@@ -1,0 +1,10 @@
+{
+  "nama": "Nama layanan (contoh: GitHub Education)",
+  "domain": ["contoh.com"],
+  "login_url": "https://contoh.com/login",
+  "langkah": [
+    {"aksi": "klik", "teks": "claim|klaim|redeem|get offer"},
+    {"aksi": "tunggu_teks", "teks": "berhasil|success|redeemed", "detik": 10}
+  ],
+  "berhasil_jika_ada_teks": ["berhasil", "success", "redeemed", "claimed"]
+}
