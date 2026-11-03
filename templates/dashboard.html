@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promo Radar</title>
+<style>
+  :root {
+    --bg: #f6f5f1; --surface: #ffffff; --ink: #1b1b18; --muted: #6b6a63;
+    --line: #e3e1d8; --accent: #0f6b4f; --accent-soft: #e2f1ea;
+    --warn: #a94a12; --warn-soft: #fbe9dc; --new: #1f4fb4; --new-soft: #e4ebfa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121311; --surface: #1b1c19; --ink: #ecebe4; --muted: #9a998f;
+      --line: #2a2b27; --accent: #4cc79b; --accent-soft: #17332a;
+      --warn: #f0a066; --warn-soft: #3a2616; --new: #8fb0f5; --new-soft: #1a2640;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121311; --surface: #1b1c19; --ink: #ecebe4; --muted: #9a998f;
+    --line: #2a2b27; --accent: #4cc79b; --accent-soft: #17332a;
+    --warn: #f0a066; --warn-soft: #3a2616; --new: #8fb0f5; --new-soft: #1a2640;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  header h1 { margin: 0; font-size: 1.5rem; letter-spacing: -0.01em; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 0.875rem; }
+  .tools { position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 16px 0 8px; }
+  .row { display: flex; gap: 8px; }
+  input[type="search"], select {
+    font: inherit; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; min-height: 44px;
+  }
+  input[type="search"] { flex: 1; min-width: 0; }
+  select { max-width: 45%; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 4px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: none; font: inherit; font-size: 0.875rem; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; min-height: 40px; cursor: pointer;
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chip[aria-pressed="true"] { color: #08241a; } }
+  .count { color: var(--muted); font-size: 0.875rem; margin: 8px 0 12px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px; margin-bottom: 12px;
+  }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .merchant { font-size: 0.8125rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge { font-size: 0.75rem; font-weight: 600; border-radius: 6px; padding: 2px 8px; }
+  .b-new { background: var(--new-soft); color: var(--new); }
+  .b-soon { background: var(--warn-soft); color: var(--warn); }
+  .card h2 { margin: 8px 0 4px; font-size: 1.0625rem; line-height: 1.35; }
+  .diskon { color: var(--accent); font-weight: 700; margin: 0 0 4px; }
+  .desc { margin: 0 0 8px; color: var(--muted); font-size: 0.9375rem; }
+  details { font-size: 0.875rem; color: var(--muted); margin-bottom: 8px; }
+  summary { cursor: pointer; min-height: 32px; display: flex; align-items: center; }
+  .foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .until { font-size: 0.8125rem; color: var(--muted); }
+  .actions { display: flex; gap: 8px; }
+  .btn {
+    font: inherit; font-size: 0.875rem; font-weight: 600; text-decoration: none; cursor: pointer;
+    border-radius: 8px; padding: 0 14px; min-height: 44px; display: inline-flex; align-items: center;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #08241a; } }
+  .empty { text-align: center; color: var(--muted); padding: 48px 16px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Promo Radar</h1>
+    <p>Diperbarui __UPDATED__</p>
+  </header>
+
+  <div class="tools">
+    <div class="row">
+      <input id="q" type="search" placeholder="Cari promo" aria-label="Cari promo">
+      <select id="urut" aria-label="Urutkan">
+        <option value="nilai">Terbaik</option>
+        <option value="segera">Segera habis</option>
+        <option value="baru">Terbaru</option>
+      </select>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Kategori"></div>
+  </div>
+
+  <div class="count" id="count" aria-live="polite"></div>
+  <div id="list"></div>
+</div>
+
+<script>
+const DATA = __DATA__;
+
+const todayStr = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Jakarta' });
+const dayNum = s => { const [y, m, d] = s.split('-').map(Number); return Date.UTC(y, m - 1, d) / 86400000; };
+const BULAN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const fmt = s => { const [, m, d] = s.split('-').map(Number); return d + ' ' + BULAN[m - 1]; };
+const left = p => p.berakhir ? dayNum(p.berakhir) - dayNum(todayStr) : null;
+const safeUrl = u => /^https?:\/\//i.test(u || '') ? u : '';
+
+const promos = DATA.filter(p => left(p) === null || left(p) >= 0);
+const state = { kat: 'Semua', q: '', urut: 'nilai' };
+
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined && text !== null) n.textContent = text;
+  return n;
+}
+
+function buildChips() {
+  const box = document.getElementById('chips');
+  box.textContent = '';
+  const cats = ['Semua', ...Array.from(new Set(promos.map(p => p.kategori))).sort()];
+  cats.forEach(c => {
+    const b = el('button', 'chip', c);
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(c === state.kat));
+    b.onclick = () => { state.kat = c; buildChips(); render(); };
+    box.appendChild(b);
+  });
+}
+
+function card(p) {
+  const c = el('article', 'card');
+  const top = el('div', 'top');
+  top.appendChild(el('span', 'merchant', p.merchant));
+  const badges = el('div', 'badges');
+  if (p.pertama_terlihat === todayStr) badges.appendChild(el('span', 'badge b-new', 'Baru'));
+  const l = left(p);
+  if (l === 0) badges.appendChild(el('span', 'badge b-soon', 'Berakhir hari ini'));
+  else if (l === 1) badges.appendChild(el('span', 'badge b-soon', 'Berakhir besok'));
+  top.appendChild(badges);
+  c.appendChild(top);
+
+  c.appendChild(el('h2', '', p.judul));
+  if (p.diskon) c.appendChild(el('p', 'diskon', p.diskon));
+  if (p.deskripsi) c.appendChild(el('p', 'desc', p.deskripsi));
+  if (p.syarat) {
+    const d = el('details');
+    d.appendChild(el('summary', '', 'Syarat'));
+    d.appendChild(el('div', '', p.syarat));
+    c.appendChild(d);
+  }
+
+  const foot = el('div', 'foot');
+  foot.appendChild(el('span', 'until', p.berakhir ? 'Sampai ' + fmt(p.berakhir) : 'Tanggal berakhir tidak disebut'));
+  const act = el('div', 'actions');
+  if (p.kode) {
+    const k = el('button', 'btn', 'Salin kode ' + p.kode);
+    k.type = 'button';
+    k.onclick = async () => {
+      try { await navigator.clipboard.writeText(p.kode); k.textContent = 'Tersalin'; }
+      catch (e) { k.textContent = p.kode; }
+      setTimeout(() => { k.textContent = 'Salin kode ' + p.kode; }, 1800);
+    };
+    act.appendChild(k);
+  }
+  const url = safeUrl(p.url);
+  if (url) {
+    const a = el('a', 'btn primary', 'Buka promo');
+    a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    act.appendChild(a);
+  }
+  foot.appendChild(act);
+  c.appendChild(foot);
+  return c;
+}
+
+function render() {
+  const q = state.q.trim().toLowerCase();
+  let rows = promos.filter(p =>
+    (state.kat === 'Semua' || p.kategori === state.kat) &&
+    (!q || (p.merchant + ' ' + p.judul + ' ' + p.deskripsi + ' ' + p.diskon).toLowerCase().includes(q)));
+
+  const by = {
+    nilai: (a, b) => b.nilai - a.nilai || a.merchant.localeCompare(b.merchant),
+    segera: (a, b) => (left(a) ?? 9999) - (left(b) ?? 9999) || b.nilai - a.nilai,
+    baru: (a, b) => (b.pertama_terlihat || '').localeCompare(a.pertama_terlihat || '') || b.nilai - a.nilai,
+  };
+  rows.sort(by[state.urut]);
+
+  document.getElementById('count').textContent = rows.length + ' promo';
+  const list = document.getElementById('list');
+  list.textContent = '';
+  if (!rows.length) {
+    list.appendChild(el('div', 'empty', 'Tidak ada promo yang cocok. Coba kata kunci atau kategori lain.'));
+    return;
+  }
+  rows.forEach(p => list.appendChild(card(p)));
+}
+
+document.getElementById('q').addEventListener('input', e => { state.q = e.target.value; render(); });
+document.getElementById('urut').addEventListener('change', e => { state.urut = e.target.value; render(); });
+buildChips();
+render();
+</script>
+</body>
+</html>

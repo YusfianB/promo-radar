@@ -1,0 +1,98 @@
+{
+  "model": "muse-spark-1.2",
+  "model_cadangan": ["muse-spark-1.1"],
+  "reasoning_effort": "low",
+  "max_promo_per_kategori": 12,
+  "paralel": 4,
+  "harga_usd": {
+    "input_per_juta_token": 1.25,
+    "output_per_juta_token": 4.25,
+    "per_web_search": 0.00825
+  },
+  "kategori": [
+    {
+      "aktif": true,
+      "nama": "Makanan & Minuman",
+      "fokus": "fast food (KFC, McD, Burger King, Pizza Hut, Richeese), kopi (Kopi Kenangan, Janji Jiwa, Starbucks, Fore, Point Coffee), minuman (Mixue, Chatime), restoran dan kafe",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Pesan Antar Makanan",
+      "fokus": "voucher dan promo GoFood, GrabFood, ShopeeFood",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Belanja Online",
+      "fokus": "Shopee, Tokopedia, TikTok Shop, Lazada, Blibli, Zalora: flash sale, tanggal kembar, gratis ongkir, cashback",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Supermarket & Minimarket",
+      "fokus": "katalog promo mingguan Indomaret, Alfamart, Alfamidi, Superindo, Hypermart, Transmart, Lotte Mart, Giant",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Bank & Kartu Kredit",
+      "fokus": "promo kartu kredit/debit BCA, Mandiri, BRI, BNI, CIMB Niaga, Danamon, OCBC, Jago, SeaBank, Blu: cashback, diskon merchant, cicilan 0%",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "E-Wallet & QRIS",
+      "fokus": "promo GoPay, OVO, DANA, ShopeePay, LinkAja, AstraPay, cashback QRIS",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Travel",
+      "fokus": "tiket pesawat, kereta api (KAI Access), bus, hotel, paket wisata, promo Traveloka, tiket.com, Agoda, pegipegi",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Bioskop & Hiburan",
+      "fokus": "promo tiket bioskop XXI, CGV, Cinepolis, langganan streaming (Netflix, Vidio, Spotify, YouTube Premium), konser, taman rekreasi",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Pulsa, Data & Internet",
+      "fokus": "promo paket data Telkomsel, Indosat IM3, XL, Axis, Tri, Smartfren, by.U, internet rumah IndiHome, Biznet, First Media, MyRepublic",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Transportasi & BBM",
+      "fokus": "promo GoRide, GoCar, GrabBike, GrabCar, Maxim, inDrive, MyPertamina, Shell, parkir dan tol",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Elektronik & Gadget",
+      "fokus": "promo HP, laptop, TV, peralatan rumah di Erafone, iBox, Electronic City, Best Denki, Informa, dan brand resmi",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Fashion & Kecantikan",
+      "fokus": "promo pakaian, sepatu, skincare, kosmetik: Uniqlo, H&M, Matahari, Sociolla, Guardian, Watsons, brand lokal",
+      "wilayah": "Nasional"
+    },
+    {
+      "aktif": true,
+      "nama": "Lokal Surabaya",
+      "fokus": "promo restoran, kafe, mall (Tunjungan Plaza, Pakuwon Mall, Galaxy Mall, Ciputra World, Grand City), event, dan diskon yang khusus berlaku di Surabaya",
+      "wilayah": "Surabaya"
+    },
+    {
+      "aktif": true,
+      "nama": "Lokal Madura",
+      "fokus": "promo restoran, toko, event, dan diskon yang khusus berlaku di Madura (Bangkalan, Sampang, Pamekasan, Sumenep)",
+      "wilayah": "Madura"
+    }
+  ]
+}
