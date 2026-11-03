@@ -65,6 +65,18 @@ class Parsing(unittest.TestCase):
         self.assertIsNone(pr.rapikan(promo(merchant=""), {"nama": "T"}, HARI))
 
 
+class KunciAPI(unittest.TestCase):
+    def test_bersihkan_key(self):
+        k = "LLM|123456|abcDEF_-xyz"
+        self.assertEqual(pr.bersihkan_key(k), k)
+        self.assertEqual(pr.bersihkan_key(" \n" + k + "\n"), k)
+        self.assertEqual(pr.bersihkan_key('"' + k + '"'), k)
+        self.assertEqual(pr.bersihkan_key('{\n  "email": "a@b.c",\n  "apikey": "' + k + '"\n}'), k)
+        self.assertEqual(pr.bersihkan_key('apikey: ' + k + '\nemail: a@b.c'), k)
+        self.assertEqual(pr.bersihkan_key("abc def\nghi"), "abcdefghi")
+        self.assertEqual(pr.bersihkan_key(""), "")
+
+
 class Gabung(unittest.TestCase):
     def olah(self, lst, kat="A"):
         out = []

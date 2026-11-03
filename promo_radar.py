@@ -74,6 +74,24 @@ def buat_id(promo):
 
 # ---------------------------------------------------------------- API
 
+def bersihkan_key(mentah):
+    """Ambil API key murni dari isi secret, walau tertempel dengan JSON, tanda kutip, atau baris baru."""
+    mentah = (mentah or "").strip()
+    if not mentah:
+        return ""
+    if mentah.startswith("{"):
+        try:
+            obj = json.loads(mentah)
+            if isinstance(obj, dict) and obj.get("apikey"):
+                mentah = str(obj["apikey"])
+        except json.JSONDecodeError:
+            pass
+    m = re.search(r"LLM\|\d+\|[A-Za-z0-9_\-]+", mentah)
+    if m:
+        return m.group(0)
+    return re.sub(r"[\s\"']+", "", mentah)
+
+
 def ambil_teks(data):
     teks = data.get("output_text")
     if isinstance(teks, str) and teks.strip():
@@ -90,7 +108,7 @@ def ambil_teks(data):
 def panggil_model(cfg, api_key, prompt):
     """Satu panggilan Responses API dengan web_search. Return (teks, usage dict)."""
     model_list = [cfg["model"]] + list(cfg.get("model_cadangan", []))
-    kesalahan = None
+    kesalahan = []
     for model in model_list:
         body = {
             "model": model,
@@ -108,7 +126,7 @@ def panggil_model(cfg, api_key, prompt):
                     timeout=300,
                 )
             except requests.RequestException as e:
-                kesalahan = f"{model}: jaringan {type(e).__name__}"
+                kesalahan.append(f"{model}: jaringan {type(e).__name__}")
                 time.sleep(3 * (percobaan + 1))
                 continue
             if r.status_code == 200:
@@ -120,11 +138,11 @@ def panggil_model(cfg, api_key, prompt):
                 body.pop("reasoning")
                 continue
             if r.status_code in (404, 400):
-                kesalahan = f"{model}: HTTP {r.status_code} {r.text[:200]}"
+                kesalahan.append(f"{model}: HTTP {r.status_code} {r.text[:200]}")
                 break  # coba model cadangan
-            kesalahan = f"{model}: HTTP {r.status_code}"
+            kesalahan.append(f"{model}: HTTP {r.status_code}")
             time.sleep(5 * (percobaan + 1))
-    raise RuntimeError(kesalahan or "gagal memanggil model")
+    raise RuntimeError(" | ".join(dict.fromkeys(kesalahan)) or "gagal memanggil model")
 
 
 def buat_prompt(kat, tanggal, maks):
@@ -390,9 +408,10 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
-    api_key = os.environ.get("MODEL_API_KEY", "").strip()
+    api_key = bersihkan_key(os.environ.get("MODEL_API_KEY", ""))
     if not api_key:
         raise SystemExit("MODEL_API_KEY belum diisi.")
+    print(f"API key terbaca: {len(api_key)} karakter, diawali '{api_key[:4]}...'")
 
     tanggal = hari_ini()
     kategori = [k for k in cfg["kategori"] if k.get("aktif", True)]
