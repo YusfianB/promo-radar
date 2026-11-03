@@ -65,6 +65,16 @@ class Parsing(unittest.TestCase):
         self.assertIsNone(pr.rapikan(promo(merchant=""), {"nama": "T"}, HARI))
 
 
+class Prompt(unittest.TestCase):
+    def test_prompt_lokal_dan_global(self):
+        lokal = pr.buat_prompt({"nama": "T", "fokus": "x", "wilayah": "Surabaya"}, HARI, 5)
+        self.assertIn("di Indonesia", lokal)
+        glob = pr.buat_prompt({"nama": "AI", "fokus": "x", "wilayah": "Global (bisa)", "catatan": "Hanya resmi."}, HARI, 5)
+        self.assertIn("di seluruh dunia", glob)
+        self.assertIn("- Hanya resmi.", glob)
+        self.assertNotIn("{", glob.split("Balas HANYA")[0])
+
+
 class KunciAPI(unittest.TestCase):
     def test_bersihkan_key(self):
         k = "LLM|123456|abcDEF_-xyz"

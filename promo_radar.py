@@ -146,9 +146,12 @@ def panggil_model(cfg, api_key, prompt):
 
 
 def buat_prompt(kat, tanggal, maks):
+    global_ = kat["wilayah"].lower().startswith("global")
+    lokasi = "di seluruh dunia yang bisa dipakai pengguna dari Indonesia" if global_ else "di Indonesia"
+    catatan = ("\n- " + kat["catatan"]) if kat.get("catatan") else ""
     return f"""Hari ini {HARI[tanggal.weekday()]}, {tanggal.isoformat()} (zona waktu WIB, Indonesia).
 
-Tugas: cari di web promo, diskon, cashback, atau voucher yang SEDANG BERLAKU hari ini di Indonesia.
+Tugas: cari di web promo, diskon, cashback, atau voucher yang SEDANG BERLAKU hari ini {lokasi}.
 Kategori: {kat['nama']}
 Cakupan: {kat['fokus']}
 Wilayah: {kat['wilayah']}
@@ -160,7 +163,7 @@ Aturan:
 - Pilih {maks} promo bernilai paling besar atau paling banyak dipakai orang. Hindari promo yang sama ditulis dua kali.
 - "berakhir" berformat YYYY-MM-DD. Jika sumber tidak menyebut tanggal berakhir, isi null.
 - "nilai" angka 1-5: seberapa menguntungkan bagi pembeli umum (5 = sangat besar dan mudah dipakai).
-- "url" harus alamat halaman sumber promo yang kamu baca.
+- "url" harus alamat halaman sumber promo yang kamu baca.{catatan}
 
 Balas HANYA dengan JSON array, tanpa teks lain, tanpa markdown. Setiap elemen:
 {{"merchant": "...", "judul": "...", "diskon": "ringkas, mis. 'Diskon 50%' atau 'Cashback Rp25.000'", "deskripsi": "satu kalimat", "kode": "kode voucher atau null", "syarat": "syarat utama singkat atau null", "mulai": "YYYY-MM-DD atau null", "berakhir": "YYYY-MM-DD atau null", "url": "https://...", "nilai": 1-5}}

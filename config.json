@@ -1,6 +1,8 @@
 {
   "model": "muse-spark-1.2",
-  "model_cadangan": ["muse-spark-1.1"],
+  "model_cadangan": [
+    "muse-spark-1.1"
+  ],
   "reasoning_effort": "low",
   "max_promo_per_kategori": 12,
   "paralel": 4,
@@ -93,6 +95,20 @@
       "nama": "Lokal Madura",
       "fokus": "promo restoran, toko, event, dan diskon yang khusus berlaku di Madura (Bangkalan, Sampang, Pamekasan, Sumenep)",
       "wilayah": "Madura"
+    },
+    {
+      "aktif": true,
+      "nama": "AI & Agent",
+      "fokus": "kredit gratis atau diskon API dan langganan AI resmi: OpenAI, Anthropic, Google (Gemini, AI Studio), Perplexity, Mistral, xAI, Meta, Cursor, GitHub Copilot, Replit, Lovable, Bolt, v0, Windsurf, ElevenLabs, Midjourney, Runway, kredit startup dan hackathon, penawaran gratis untuk pelajar dan mahasiswa",
+      "wilayah": "Global (bisa dipakai dari Indonesia)",
+      "catatan": "Hanya penawaran resmi dari penyedia atau mitra resmi. Abaikan akun sharing, akun curian, kunci bajakan, dan penjual pihak ketiga yang tidak resmi."
+    },
+    {
+      "aktif": true,
+      "nama": "Aplikasi Premium",
+      "fokus": "diskon atau gratis langganan dan lisensi resmi: Canva, Notion, Adobe, Microsoft 365, Google One, Figma, Grammarly, JetBrains, Duolingo, Coursera, Udemy, Spotify, Apple, 1Password, VPN, hosting dan domain, cloud credit AWS/Google Cloud/Azure/DigitalOcean, paket pelajar, mahasiswa, dan edukator, Black Friday dan Cyber Monday",
+      "wilayah": "Global (bisa dipakai dari Indonesia)",
+      "catatan": "Hanya penawaran resmi dari penyedia atau reseller resmi. Abaikan akun sharing, kunci lisensi murah tidak resmi, dan crack."
     }
   ]
 }
